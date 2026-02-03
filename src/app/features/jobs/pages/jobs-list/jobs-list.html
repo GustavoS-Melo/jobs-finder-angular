@@ -3,10 +3,47 @@
     Vagas disponíveis
   </h2>
 
-    <div class="grid gap-4 sm:grid-cols-2">
-    <app-job-card
-      *ngFor="let job of jobs"
-      [job]="job"
-    />
+  <!-- Filters -->
+  <div class="flex flex-wrap gap-4 rounded-lg border bg-white p-4">
+    <!-- Level -->
+    <div>
+      <label class="block text-sm font-medium text-gray-600">
+        Nível
+      </label>
+      <select
+        class="mt-1 rounded border px-3 py-2 text-sm"
+        [(ngModel)]="selectedLevel"
+        (change)="filterJobs()"
+      >
+        <option value="">Todos</option>
+        <option value="Júnior">Júnior</option>
+        <option value="Estágio">Estágio</option>
+      </select>
+    </div>
+
+    <!-- Localization -->
+    <div>
+      <label class="block text-sm font-medium text-gray-600">
+        Localização
+      </label>
+      <select
+        class="mt-1 rounded border px-3 py-2 text-sm"
+        [(ngModel)]="selectedLocation"
+        (change)="filterJobs()"
+      >
+        <option value="">Todas</option>
+        <option value="Remoto">Remoto</option>
+        <option value="Híbrido">Híbrido</option>
+        <option value="Presencial">Presencial</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- List -->
+  <div class="grid gap-4 sm:grid-cols-2">
+  <app-job-card
+    *ngFor="let job of jobs"
+    [job]="job"
+  />
   </div>
 </section>
