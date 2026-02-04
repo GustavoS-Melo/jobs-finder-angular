@@ -1,11 +1,21 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, effect } from '@angular/core';
 import { Job } from '../jobs/job.model';
 
+const STORAGE_KEY = 'jobs-finder-favorites'
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritesService {
-  private _favorites = signal<Job[]>([]);
+  private _favorites = signal<Job[]>(this.loadFromStorage());
+
+  constructor() {
+    effect(() => {
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify(this._favorites())
+      );
+    });
+  }
 
   favorites() {
     return this._favorites();
@@ -31,5 +41,10 @@ export class FavoritesService {
     this.isFavorite(job.id)
       ? this.remove(job.id)
       : this.add(job);
+  }
+
+  private loadFromStorage(): Job[] {
+    const data = localStorage.getItem(STORAGE_KEY);
+    return data ? JSON.parse(data) : [];
   }
 }
