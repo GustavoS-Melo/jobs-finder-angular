@@ -1,13 +1,10 @@
 import { Routes } from '@angular/router';
+import { HomePage } from './pages/home/home';
+import { JobsPage } from './pages/jobs/jobs';
+import { FavoritesPage } from './pages/favorites/favorites';
 
 export const routes: Routes = [
-  {
-    path: '',
-    redirectTo: 'jobs',
-    pathMatch: 'full',
-  },
-  {
-    path: 'jobs',
-    loadChildren: () => import('./features/jobs/pages/jobs.routes').then(m => m.JOBS_ROUTES)
-  },
+  {path: '', component: HomePage},
+  {path: 'jobs', component: JobsPage},
+  {path: 'favorites', component: FavoritesPage},
 ];
