@@ -1,13 +1,15 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { Job } from '../job.model';
 
 @Component({
   selector: 'app-job-card',
   standalone: true,
-  imports: [CommonModule],
   template: `
-    <div class="border rounded-xl p-5 shadow-sm hover:shadow-md transition">
+    <div
+      class="border rounded-xl p-5 shadow-sm hover:shadow-md transition cursor-pointer"
+      (click)="goToDetails()"
+    >
       <h3 class="text-lg font-semibold">{{ job.title }}</h3>
       <p class="text-sm text-gray-600">{{ job.company }} • {{ job.location }}</p>
 
@@ -25,11 +27,17 @@ import { Job } from '../job.model';
       </p>
 
       <p class="mt-3 font-medium text-sm">
-        💰 {{ job.salary }}
+        {{ job.salary }}
       </p>
     </div>
   `
 })
 export class JobCardComponent {
   @Input({ required: true }) job!: Job;
+
+  constructor(private router: Router){}
+
+  goToDetails(){
+    this.router.navigate(['jobs', this.job.id]);
+  }
 }

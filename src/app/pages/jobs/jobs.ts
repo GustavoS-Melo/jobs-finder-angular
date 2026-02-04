@@ -12,7 +12,7 @@ import { JOBS_MOCK } from '../../features/jobs/jobs.mock';
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
       @for (job of jobs; track job.id) {
-        <app-job-card [job]="job" />
+        <app-job-card [job]="job"></app-job-card>
       }
     </div>
     `
