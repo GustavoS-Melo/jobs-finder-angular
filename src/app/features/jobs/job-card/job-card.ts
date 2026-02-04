@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Job } from '../job.model';
+import { FavoritesService } from '../favorites.service';
 
 @Component({
   selector: 'app-job-card',
@@ -10,6 +11,14 @@ import { Job } from '../job.model';
       class="border rounded-xl p-5 shadow-sm hover:shadow-md transition cursor-pointer"
       (click)="goToDetails()"
     >
+      <button
+        (click)="toggleFavorite($event)"
+        class="absolute top-4 right-4 text-xl"
+        aria-label="Favoritar vaga"
+      >
+        {{ isFavorite() ? '❤️' : '🤍' }}
+      </button>
+
       <h3 class="text-lg font-semibold">{{ job.title }}</h3>
       <p class="text-sm text-gray-600">{{ job.company }} • {{ job.location }}</p>
 
@@ -35,9 +44,19 @@ import { Job } from '../job.model';
 export class JobCardComponent {
   @Input({ required: true }) job!: Job;
 
-  constructor(private router: Router){}
+  private router = inject(Router);
+  private favoritesService = inject(FavoritesService);
 
-  goToDetails(){
+  goToDetails() {
     this.router.navigate(['jobs', this.job.id]);
+  }
+
+  toggleFavorite(event: MouseEvent) {
+    event.stopPropagation();
+    this.favoritesService.toggle(this.job);
+  }
+
+  isFavorite() {
+    return this.favoritesService.isFavorite(this.job.id);
   }
 }
